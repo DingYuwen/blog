@@ -33,17 +33,17 @@ let itor = gen();   // 生成器函数运行后会返回一个迭代器对象，
 
 [ES6规范中规定](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols#迭代器协议)迭代器必须有一个`next`方法，这个方法会返回一个对象，这个对象具有`done`和`value`两个属性，`done`表示当前迭代器内容是否已经执行完，执行完为`true`，否则为`false`，`value`表示当前步骤返回的值。在`generator`具体运用中，每次遇到`yield`关键字都会暂停执行，当调用迭代器的`next`时，会将`yield`后面表达式的值作为返回对象的`value`，比如上面生成器的执行结果如下:
 
-![image-20200419153257750](../../images/JavaScript/Generator/image-20200419153257750.png)
+<img src="../../images/JavaScript/Generator/image-20200419153257750.png">
 
 我们可以看到第一次调`next`返回的就是第一个`yeild`后面表达式的值，也就是1。**需要注意的是，整个迭代器目前暂停在了第一个`yield`这里，给变量`a`赋值都没执行，要调用下一个`next`的时候才会给变量`a`赋值，然后一直执行到第二个`yield`**。那应该给`a`赋什么值呢？从代码来看，`a`的值应该是`yield`语句的返回值，但是`yield`本身是没有返回值的，或者说返回值是`undefined`，如果要给`a`赋值需要下次调`next`的时候手动传进去，我们这里传一个4，4就会作为上次`yield`的返回值赋给`a`:
 
-![image-20200419154159553](../../images/JavaScript/Generator/image-20200419154159553.png)
+<img src="../../images/JavaScript/Generator/image-20200419154159553.png">
 
 可以看到第二个`yield`后面的表达式`a + 2`的值是6，这是因为我们传进去的4被作为上一个`yield`的返回值了，然后计算`a + 2`自然就是6了。
 
 我们继续`next`，把这个迭代器走完：
 
-![image-20200419155225702](../../images/JavaScript/Generator/image-20200419155225702.png)
+<img src="../../images/JavaScript/Generator/image-20200419155225702.png">
 
 上图是接着前面运行的，图中第一个`next`返回的`value`是`NaN`是因为我们调`next`的时候没有传参数，也就是说`b`为`undefined`，`undefined + 3`就为`NaN`了 。最后一个`next`其实是把函数体执行完了，这时候的`value`应该是这个函数`return`的值，但是因为我们没有写`return`，默认就是`return undefined`了，执行完后`done`会被置为`true`。
 
@@ -63,7 +63,7 @@ let itor = gen();
 
 我们这次不用`next`执行了，直接`throw`错误出来:
 
-![image-20200419160330384](../../images/JavaScript/Generator/image-20200419160330384.png)
+<img src="../../images/JavaScript/Generator/image-20200419160330384.png">
 
 这个错误因为我们没有捕获，所以直接抛到最外层来了，我们可以在函数体里面捕获他，稍微改下:
 
@@ -83,7 +83,7 @@ let itor = gen();
 
 然后再来`throw`下：
 
-![image-20200419160604004](../../images/JavaScript/Generator/image-20200419160604004.png)
+<img src="../../images/JavaScript/Generator/image-20200419160604004.png">
 
 这个图可以看出来，错误在函数里里面捕获了，走到了`catch`里面，这里面只有一个`console`同步代码，整个函数直接就运行结束了，所以`done`变成`true`了，当然`catch`里面可以继续写`yield`然后用`next`来执行。
 
@@ -103,7 +103,7 @@ let itor = gen();
 
 这次我们直接调用`return`:
 
-![image-20200419161105691](../../images/JavaScript/Generator/image-20200419161105691.png)
+<img src="../../images/JavaScript/Generator/image-20200419161105691.png">
 
 #### yield*
 
@@ -125,7 +125,7 @@ let itor = gen2();
 
 上面代码我们第一次调用`next`，值自然是`10 + 5`，即15，然后第二次调用`next`，其实就走到了`yield*`了，这其实就相当于调用了`gen`，然后执行他的第一个`yield`，值就是1。
 
-![image-20200419161624637](../../images/JavaScript/Generator/image-20200419161624637.png)
+<img src="../../images/JavaScript/Generator/image-20200419161624637.png">
 
 ### 协程
 

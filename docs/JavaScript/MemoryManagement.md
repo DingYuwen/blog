@@ -24,7 +24,7 @@ var c = true;
 
 根据我们的定义顺序，`a`会首先入栈，然后是`b`，最后是`c`。最终结构图如下所示：
 
-![image-20200109154828868](../../images/JavaScript/Memory Management/image-20200109154828868.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109154828868.png">
 
 我们定义一个变量是按照如下顺序进行的，以`var a = 10;` 为例，我们先将10放入内存，然后申明一个变量`a`，这时候`a`的值是`undefined`，最后进行赋值，就是将`a`与10关联起来。
 
@@ -38,15 +38,15 @@ var c = true;
 
 JS中原始数据类型的内存大小是固定的，由系统自动分配内存。但是引用数据类型，比如Object, Array，他们的大小不是固定的，所以是存在堆内存的。JS不允许直接操作堆内存，我们在操作对象时，操作的实际是对象的引用，而不是实际的对象。可以理解为对象在栈里面存了一个内存地址，这个地址指向了堆里面实际的对象。所以引用类型的值是一个指向堆内存的引用地址。
 
-![image-20200109161516222](../../images/JavaScript/Memory Management/image-20200109161516222.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109161516222.png">
 
 函数也是引用类型，当我们定义一个函数时，会在堆内存中开辟一块内存空间，将函数体代码以字符串的形式存进去。然后将这块内存的地址赋值给函数名，函数名和引用地址会存在栈上。
 
-![image-20200109162509063](../../images/JavaScript/Memory Management/image-20200109162509063.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109162509063.png">
 
 可以在Chrome调试工具中尝试一下，定义一个方法，然后不加括号调用，直接输出函数，可以看到，打印出来的是函数体字符串：
 
-![image-20200109162715573](../../images/JavaScript/Memory Management/image-20200109162715573.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109162715573.png">
 
 ### 垃圾回收
 
@@ -124,7 +124,7 @@ element.someObject = null;
 
 每个函数都有自己的执行环境。当执行流进入一个函数时，函数的环境会被推入一个环境栈中。当这个函数执行之后，栈将其环境弹出，把控制权返回给之前的环境。ECMAScript程序中的执行流就是这个机制控制的。
 
-![image-20200109172651697](../../images/JavaScript/Memory Management/image-20200109172651697.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109172651697.png">
 
 在一个环境中声明变量的时候，垃圾回收器将其标记为“进入环境”，当函数执行完毕时，将其标记为“离开环境”，内存被回收。
 
@@ -162,7 +162,7 @@ V8采用了分代回收的策略，将内存分为两个生代：新生代和老
 4. 对to进行全部回收
 ```
 
-![image-20200109174644426](../../images/JavaScript/Memory Management/image-20200109174644426.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109174644426.png">
 
 可以看到在新生代中我们复制的是存活的对象，死亡对象都留在原地，最后被全部回收。这是因为对于大多数新增变量来说，可能只是用一下，很快就需要释放，那在新生代中每次回收会发现存活的是少数，死亡的是多数。那我们复制的就是少数对象，这样效率更高。如果一个变量在新生代中经过几次复制还活着，那他生命周期可能就比较长，会晋升到老生代。有两种情况会对对象进行晋升：
 
@@ -175,18 +175,18 @@ V8采用了分代回收的策略，将内存分为两个生代：新生代和老
 
 老生代存放的是生命周期较长的对象，他的结构是一个连续的结构，不像新生代分为`from`和`to`两部分。老生代垃圾回收有两种方式，标记清除和标记合并。
 
-![image-20200109180318322](../../images/JavaScript/Memory Management/image-20200109180318322.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109180318322.png">
 
 ##### 标记清除
 
 标记清除是标记死亡的对象，直接其空间释放掉。在标记清除方法清除掉死亡对象后，内存空间就变成不连续的了，所以出现了另一个方案：标记合并。
 
-![image-20200109180634028](../../images/JavaScript/Memory Management/image-20200109180634028.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109180634028.png">
 
 ##### 标记合并
 
 这个方案有点像新生代的Cheney算法，将存活的对象移动到一边，将需要被回收的对象移动到另一边，然后对需要被回收的对象区域进行整体的垃圾回收。
 
-![image-20200109181243348](../../images/JavaScript/Memory Management/image-20200109181243348.png)
+<img src="../../images/JavaScript/Memory Management/image-20200109181243348.png">
 
 与新生代算法相比，老生代主要操作死亡对象，因为老生代都是生命周期较长的对象，每次回收死亡的比较少；而新生代主要操作的存活对象，因为新生代都是生命周期较短的对象，每次回收存活的较少。这样无论新生代还是老生代，每次回收时都尽可能操作更少的对象，效率就提高了。

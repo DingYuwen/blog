@@ -22,7 +22,7 @@ console.log(3);
 
 上述代码会先打印出1，然后调用`syncFunc`，`syncFunc`里面while循环会运行2秒，然后打印出2，最后打印出3。所以这里代码的执行顺序跟我们的书写顺序是一致，他是同步代码：
 
-![image-20200320144654281](../../images/JavaScript/AsyncAndEventLoop/image-20200320144654281.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200320144654281.png">
 
 再来看个异步例子：
 
@@ -40,7 +40,7 @@ console.log(3);
 
 上述代码的输出是：
 
-![image-20200320145012565](../../images/JavaScript/AsyncAndEventLoop/image-20200320145012565.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200320145012565.png">
 
 可以看到我们中间调用的`asyncFunc`里面的2却是最后输出的，这是因为`setTimeout`是一个异步方法。他的作用是设置一个定时器，等定时器时间到了再执行回调里面的代码。所以异步就相当于做一件事，但是并不是马上做，而是你先给别人打了个招呼，说xxx条件满足的时候就干什么什么。就像你晚上睡觉前在手机上设置了一个第二天早上7天的闹钟，就相当于给了手机一个异步事件，触发条件是时间到达早上7点。**使用异步的好处是你只需要设置好异步的触发条件就可以去干别的事情了，所以异步不会阻塞主干上事件的执行。特别是对于JS这种只有一个线程的语言，如果都像我们第一个例子那样去`while(true)`，那浏览器就只有一直卡死了，只有等这个循环运行完才会有响应**。
 
@@ -48,7 +48,7 @@ console.log(3);
 
 我们都知道JS是单线程的，那单线程是怎么实现异步的呢？事实上所谓的"JS是单线程的"只是指JS的主运行线程只有一个，而不是整个运行环境都是单线程。JS的运行环境主要是浏览器，以大家都很熟悉的Chrome的内核为例，他不仅是多线程的，而且是多进程的：
 
-![image-20200320151227013](../../images/JavaScript/AsyncAndEventLoop/image-20200320151227013.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200320151227013.png">
 
 上图只是一个概括分类，意思是Chrome有这几类的进程和线程，并不是每种只有一个，比如渲染进程就有多个，每个选项卡都有自己的渲染进程。有时候我们使用Chrome会遇到某个选项卡崩溃或者没有响应的情况，这个选项卡对应的渲染进程可能就崩溃了，但是其他选项卡并没有用这个渲染进程，他们有自己的渲染进程，所以其他选项卡并不会受影响。这也是Chrome单个页面崩溃并不会导致浏览器崩溃的原因，而不是像老IE那样，一个页面卡了导致整个浏览器都卡。
 
@@ -84,7 +84,7 @@ GUI线程就是渲染页面的，他解析HTML和CSS，然后将他们构建成D
 
 事件循环就是一个循环，是各个异步线程用来通讯和协同执行的机制。各个线程为了交换消息，还有一个公用的数据区，这就是事件队列。各个异步线程执行完后，通过事件触发线程将回调事件放到事件队列，主线程每次干完手上的活儿就来看看这个队列有没有新活儿，有的话就取出来执行。画成一个流程图就是这样：
 
-![image-20200320161732238](../../images/JavaScript/AsyncAndEventLoop/image-20200320161732238.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200320161732238.png">
 
 流程讲解如下:
 
@@ -136,7 +136,7 @@ syncFunc(startTime);
 
 执行结果如下：
 
-![image-20200320163640760](../../images/JavaScript/AsyncAndEventLoop/image-20200320163640760.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200320163640760.png">
 
 通过结果可以看出，虽然我们先调用的`asyncFunc`，虽然`asyncFunc`写的是2秒后执行，但是`syncFunc`的执行时间太长，达到了5秒，`asyncFunc`虽然在2秒的时候就已经进入了事件队列，但是主线程一直在执行同步代码，一直没空，所以也要等到5秒后，同步代码执行完毕才有机会执行这个定时器回调。**所以再次强调，写代码时一定不要长时间占用主线程**。
 
@@ -144,7 +144,7 @@ syncFunc(startTime);
 
 前面的流程图我为了便于理解，简化了事件队列，其实事件队列里面的事件还可以分两类：宏任务和微任务。微任务拥有更高的优先级，当事件循环遍历队列时，先检查微任务队列，如果里面有任务，就全部拿来执行，执行完之后再执行一个宏任务。执行每个宏任务之前都要检查下微任务队列是否有任务，如果有，优先执行微任务队列。所以完整的流程图如下：
 
-![image-20200322201434386](../../images/JavaScript/AsyncAndEventLoop/image-20200322201434386.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322201434386.png">
 
 上图需要注意以下几点：
 
@@ -204,7 +204,7 @@ new Promise((resolve) => {
 
 Node.js是运行在服务端的js，虽然他也用到了V8引擎，但是他的服务目的和环境不同，导致了他API与原生JS有些区别，他的Event Loop还要处理一些I/O，比如新的网络连接等，所以与浏览器Event Loop也是不一样的。Node的Event Loop是分阶段的，如下图所示：
 
-![image-20200322203318743](../../images/JavaScript/AsyncAndEventLoop/image-20200322203318743.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322203318743.png">
 
 > 1. timers: 执行`setTimeout`和`setInterval`的回调
 > 2. pending callbacks: 执行延迟到下一个循环迭代的 I/O 回调
@@ -217,7 +217,7 @@ Node.js是运行在服务端的js，虽然他也用到了V8引擎，但是他的
 
 还有个需要注意的是`poll`阶段，他后面并不一定每次都是`check`阶段，`poll`队列执行完后，如果没有`setImmediate`但是有定时器到期，他会绕回去执行定时器阶段：
 
-![image-20200322205308151](../../images/JavaScript/AsyncAndEventLoop/image-20200322205308151.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322205308151.png">
 
 #### `setImmediate`和`setTimeout`
 
@@ -238,7 +238,7 @@ setTimeout(() => {
 
 上述代码运行如下:
 
-![image-20200322210304757](../../images/JavaScript/AsyncAndEventLoop/image-20200322210304757.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322210304757.png">
 
 和我们前面讲的一样，`setImmediate`先执行了。我们来理一下这个流程：
 
@@ -266,11 +266,11 @@ setImmediate(() => {
 
 我们来运行下看看效果：
 
-![image-20200322214105295](../../images/JavaScript/AsyncAndEventLoop/image-20200322214105295.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322214105295.png">
 
 好像是`setTimeout`先输出来，我们多运行几次看看:
 
-![image-20200322214148090](../../images/JavaScript/AsyncAndEventLoop/image-20200322214148090.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322214148090.png">
 
 怎么`setImmediate`又先出来了，这代码是见鬼了还是啥？这个世界上是没有鬼怪的，所以事情都有原因的，我们顺着之前的Event Loop再来理一下。在理之前，需要告诉大家一件事情，node.js里面`setTimeout(fn, 0)`会被强制改为`setTimeout(fn, 1)`,[这在官方文档中有说明](https://nodejs.org/api/timers.html#timers_settimeout_callback_delay_args)。(说到这里顺便提下，HTML 5里面`setTimeout`最小的时间限制是4ms)。原理我们都有了，我们来理一下流程：
 
@@ -343,7 +343,7 @@ fs.readFile(__filename, () => {
 
 这段代码的打印如下：
 
-![image-20200322221221927](../../images/JavaScript/AsyncAndEventLoop/image-20200322221221927.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200322221221927.png">
 
 我们还是来理一下流程:
 
@@ -371,7 +371,7 @@ process.nextTick(()=>{
 
 代码运行结果如下：
 
-![image-20200323094907234](../../images/JavaScript/AsyncAndEventLoop/image-20200323094907234.png)
+<img src="../../images/JavaScript/AsyncAndEventLoop/image-20200323094907234.png">
 
 ## 总结
 

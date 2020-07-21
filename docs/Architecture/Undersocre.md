@@ -64,7 +64,7 @@ console.log(instance);
 
 上面代码的输出是:
 
-![image-20200318155826651](../../images/Architecture/Underscore/image-20200318155826651.png)
+<img src="../../images/Architecture/Underscore/image-20200318155826651.png">
 
 可以看到constructor指向的是`_()`，说明这真的是一个_的实例，我们来分析下代码执行流程：
 
@@ -105,7 +105,7 @@ _.map = function(array, callback) {
 
 这个方法写完其实就可以直接用了，用上面那个例子调用如下：
 
-![image-20200318173552217](../../images/Architecture/Underscore/image-20200318173552217.png)
+<img src="../../images/Architecture/Underscore/image-20200318173552217.png">
 
 ### 映射成实例方法
 
@@ -273,7 +273,7 @@ _.unique = function(array){
 
 试下链式调用:
 
-![image-20200319150724786](../../images/Architecture/Underscore/image-20200319150724786.png)
+<img src="../../images/Architecture/Underscore/image-20200319150724786.png">
 
 我们发现结果是对的，但是输出的是一个实例，不是我们想要的，所以我们还要一个方法来输出真正的计算结果，这个方法只能挂在原型上，不能写成静态方法，不然还会走到我们的mixin，会返回实例：
 
@@ -285,7 +285,7 @@ _.prototype.value = function() {
 
 再来试一下呢:
 
-![image-20200319151150422](../../images/Architecture/Underscore/image-20200319151150422.png)
+<img src="../../images/Architecture/Underscore/image-20200319151150422.png">
 
 ### 静态方法支持链式调用
 
@@ -301,13 +301,13 @@ _.chain = function(obj) {
 
 这样我们的静态方法`chain`也可以链式调用了，数据跟其他静态方法一样作为参数传给`chain`:
 
-![image-20200319151921266](../../images/Architecture/Underscore/image-20200319151921266.png)
+<img src="../../images/Architecture/Underscore/image-20200319151921266.png">
 
 ### 优化代码
 
 到这里我们的功能基本实现了，但是`mixin`函数还有需要优化的地方：
 
-![image-20200319152825665](../../images/Architecture/Underscore/image-20200319152825665.png)
+<img src="../../images/Architecture/Underscore/image-20200319152825665.png">
 
 1. `var res = func.apply(this, args);`这里的this指向的是当前实例，但是一个方法作为静态方法调用时，比如`_.map()`，方法里面的this指向的是`_`，所以这里应该改成`_`。之前这里传this是因为`chain`里面操作的是this，现在已经改成新建实例，就不用传this，所以改为正确的`_`。
 

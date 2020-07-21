@@ -105,11 +105,11 @@ console.log(a); // 50
 
 除了我们自己写的函数有副作用外，一些原生API也可能有副作用，我们写代码时应该注意：
 
-![image-20200109232215022](../../images/JavaScript/Functional Programming/image-20200109232215022.png)
+<img src="../../images/JavaScript/Functional Programming/image-20200109232215022.png">
 
 我们的目标是尽可能的减少副作用，将函数写为纯函数，下面这个不纯的函数使用了`new Date`，每次运行结果不一样，是不纯的：
 
-![image-20200109232541307](../../images/JavaScript/Functional Programming/image-20200109232541307.png)
+<img src="../../images/JavaScript/Functional Programming/image-20200109232541307.png">
 
 要给为纯函数可以将依赖注入进去，所谓依赖注入就是将不纯的部分提取出来作为参数，这样我们可以让副作用代码集中在外部，远离核心代码，保证核心代码的稳定性
 
@@ -141,9 +141,9 @@ foo(d, log, something);
 
 下面是一个可变的例子：
 
-![image-20200109233313733](../../images/JavaScript/Functional Programming/image-20200109233313733.png)
+<img src="../../images/JavaScript/Functional Programming/image-20200109233313733.png">
 
 如果我们一定要修改这个参数，我们应该将这个参数进行深拷贝后再操作，这样就不会修改参数了：
 
-![image-20200109233515929](../../images/JavaScript/Functional Programming/image-20200109233515929.png)
+<img src="../../images/JavaScript/Functional Programming/image-20200109233515929.png">
 

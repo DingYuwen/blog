@@ -76,7 +76,7 @@ window.writer = writer;
 
 一个完整架构既包括上面提的业务模块，也有一些支持的库，比如组件库，工具库，共用css。
 
-![image-20200211174829061](../../images/engineering/leader/image-20200211174829061.png)
+<img src="../../images/engineering/leader/image-20200211174829061.png">
 
 - **组件库**： 第三方通用库或者自己公司的UI库。使用自己的组件库，可以实现自己特定的功能，比如访问统计，还有可以复用，好维护等优点。
 - **工具库**：比如cookie处理，对象拷贝，token验证等模块
@@ -84,11 +84,11 @@ window.writer = writer;
 
 一个优秀的框架，比如jQuery，在架构上就分得很清晰，如下图所示，最下层都是一些支持的工具方法，中间是具体的实现，最上面才是他暴露出给外面用的业务API。
 
-![image-20200211182029022](../../images/engineering/leader/image-20200211182029022.png)
+<img src="../../images/engineering/leader/image-20200211182029022.png">
 
 前面说的都是业务架构，一个架构师不仅仅要会做业务架构，还有个很重要的工作就是技术选型，决定用哪个框架，不用哪个框架，这要求架构师对多个框架都有了解才行。不一定每个都了解得非常深入，但是应该知道他的适用场景和优缺点。一个完整的宏观下沟如下图所示，前端架构主要关注业务架构和框架，因为编程语言，应用，操作系统并没有什么选择空间。
 
-![image-20200211181235897](../../images/engineering/leader/image-20200211181235897.png)
+<img src="../../images/engineering/leader/image-20200211181235897.png">
 
 ## 规范
 
@@ -108,17 +108,17 @@ window.writer = writer;
 
 用户浏览器的性能也是可以监控的，这需要用到一个API`window.performance`，每个浏览器都有这个。他里面包括了内存使用情况和响应时间情况，每次拿到这个数据都发送给服务器，就可以监控用户的性能了：
 
-![image-20200211182957912](../../images/engineering/leader/image-20200211182957912.png)
+<img src="../../images/engineering/leader/image-20200211182957912.png">
 
 ### 工作流程
 
 工作流程我们可以在创建项目或者在项目里面添加文件时进行规范化限制，这可以使用自定义的cli实现。在Jenkins部署时，我们还可以跑一遍单元测试，如果单元测试没过，或者覆盖率不达标，可以直接让Jenkins报错。在git commit时，可以使用[husky](https://github.com/typicode/husky)进行检测，检测不过，直接不能提交代码。
 
-![image-20200212095447615](../../images/engineering/leader/image-20200212095447615.png)
+<img src="../../images/engineering/leader/image-20200212095447615.png">
 
 ## 总结
 
 简单总结下初，中，高级工程师之间的路线区别，如下：
 
-![image-20200212095722798](../../images/engineering/leader/image-20200212095722798.png)
+<img src="../../images/engineering/leader/image-20200212095722798.png">
 

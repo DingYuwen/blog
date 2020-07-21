@@ -153,13 +153,13 @@ import { createStore } from './myRedux';
 
 可以看到输出结果是一样的，说明我们自己写的Redux没有问题：
 
-![image-20200630152344176](../../images/React/Redux/image-20200630152344176.png)
+<img src="../../images/React/Redux/image-20200630152344176.png">
 
 了解了Redux的核心原理，我们再去看他的源码应该就没有问题了，[createStore的源码传送门。](https://github.com/reduxjs/redux/blob/master/src/createStore.ts)
 
 最后我们再来梳理下Redux的核心流程，注意单纯的Redux只是个状态机，是没有`View`层的哦。
 
- ![image-20200630154356840](../../images/React/Redux/image-20200630154356840.png)
+ <img src="../../images/React/Redux/image-20200630154356840.png">
 
 除了这个核心逻辑外，Redux里面还有些API也很有意思，我们也来手写下。
 
@@ -218,7 +218,7 @@ store.dispatch({ type: 'TAKE_RICE', count: 1 });   // rice: 1
 
 上面代码我们将大的`state`分成了两个小的`milkState`和`riceState`，最终运行结果如下：
 
-![image-20200630162957760](../../images/React/Redux/image-20200630162957760.png)
+<img src="../../images/React/Redux/image-20200630162957760.png">
 
 知道了用法，我们尝试自己来写下呢！要手写`combineReducers`，我们先来分析下他干了啥，首先它的返回值是一个`reducer`，这个`reducer`同样会作为`createStore`的参数传进去，说明这个返回值是一个跟我们之前普通`reducer`结构一样的函数。这个函数同样接收`state`和`action`然后返回新的`state`，只是这个新的`state`要符合`combineReducers`参数的数据结构。我们尝试来写下：
 
@@ -370,7 +370,7 @@ function logger(store) {
 
 这个中间件运行效果如下:
 
-![image-20200701160700945](../../images/React/Redux/image-20200701160700945.png)
+<img src="../../images/React/Redux/image-20200701160700945.png">
 
 可以看到我们`let result = next(action);`这行执行之后`state`改变了，前面我们说了要改变`state`只能`dispatch(action)`，所以这里的`next(action)`就是`dispatch(action)`，只是换了一个名字而已。而且注意最后一层返回值`return function(action)`的结构，他的参数是`action`，是不是很像`dispatch(action)`，其实他就是一个新的`dispatch(action)`，这个新的`dispatch(action)`会调用原始的`dispatch`，并且在调用的前后加上自己的逻辑。所以到这里一个中间件的结构也清楚了：
 
@@ -413,7 +413,7 @@ function applyMiddleware(middleware) {
 
 照例用我们自己的`applyMiddleware`替换老的，跑起来是一样的效果，说明我们写的没问题，哈哈~
 
-![image-20200701162841414](../../images/React/Redux/image-20200701162841414.png)
+<img src="../../images/React/Redux/image-20200701162841414.png">
 
 ### 支持多个`middleware`
 
@@ -520,7 +520,7 @@ let store = createStore(reducer, applyMiddleware(logger, logger2));
 
 可以看到`logger2`也已经打印出来了，大功告成。
 
-![image-20200701173615349](../../images/React/Redux/image-20200701173615349.png)
+<img src="../../images/React/Redux/image-20200701173615349.png">
 
 现在我们也可以知道他的中间件为什么要包裹几层函数了：
 

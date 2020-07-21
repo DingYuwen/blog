@@ -39,7 +39,7 @@ const App =
 
 经过babel转换后就变成了这样：
 
-![image-20200608175937104](../../images/React/FiberAndHooks/image-20200608175937104.png)
+<img src="../../images/React/FiberAndHooks/image-20200608175937104.png">
 
 上面的截图可以看出我们写的HTML被转换成了`React.createElement`，我们将上面代码稍微格式化来看下：
 
@@ -77,11 +77,11 @@ var App = React.createElement(
 
 让我们来完整看下这个简单的React页面代码：
 
-![image-20200608180112829](../../images/React/FiberAndHooks/image-20200608180112829.png)
+<img src="../../images/React/FiberAndHooks/image-20200608180112829.png">
 
 渲染在页面上是这样：
 
-![image-20200608180139663](../../images/React/FiberAndHooks/image-20200608180139663.png)
+<img src="../../images/React/FiberAndHooks/image-20200608180139663.png">
 
 这里面用到了React的地方其实就两个，一个是JSX，也就是`React.createElement`，另一个就是`ReactDOM.render`，所以我们手写的第一个目标就有了，就是`createElement`和`render`这两个方法。
 
@@ -158,11 +158,11 @@ function render(vDom, container) {
 
 现在我们可以用自己写的`createElement`和`render`来替换原生的方法了：
 
-![image-20200608180301596](../../images/React/FiberAndHooks/image-20200608180301596.png)
+<img src="../../images/React/FiberAndHooks/image-20200608180301596.png">
 
 可以得到一样的渲染结果：
 
-![image-20200608180139663](../../images/React/FiberAndHooks/image-20200608180139663.png)
+<img src="../../images/React/FiberAndHooks/image-20200608180139663.png">
 
 ## 为什么需要Fiber
 
@@ -219,7 +219,7 @@ requestIdleCallback(workLoop);
 
 上面我们的`performUnitOfWork`并没有实现，但是从上面的结构可以看出来，他接收的参数是一个小任务，同时通过这个小任务还可以找到他的下一个小任务，Fiber构建的就是这样一个数据结构。Fiber之前的数据结构是一棵树，父节点的`children`指向了子节点，但是只有这一个指针是不能实现中断继续的。比如我现在有一个父节点A，A有三个子节点B,C,D，当我遍历到C的时候中断了，重新开始的时候，其实我是不知道C下面该执行哪个的，因为只知道C，并没有指针指向他的父节点，也没有指针指向他的兄弟。Fiber就是改造了这样一个结构，加上了指向父节点和兄弟节点的指针：
 
-![image-20200609173312276](../../images/React/FiberAndHooks/image-20200609173312276.png)
+<img src="../../images/React/FiberAndHooks/image-20200609173312276.png">
 
 上面的图片还是来自于官方的演讲，可以看到和之前父节点指向所有子节点不同，这里有三个指针：
 
@@ -233,7 +233,7 @@ requestIdleCallback(workLoop);
 
 现在我们可以自己来实现一下Fiber了，我们需要将之前的vDom结构转换为Fiber的数据结构，同时需要能够通过其中任意一个节点返回下一个节点，其实就是遍历这个链表。遍历的时候从根节点出发，先找子元素，如果子元素存在，直接返回，如果没有子元素了就找兄弟元素，找完所有的兄弟元素后再返回父元素，然后再找这个父元素的兄弟元素。整个遍历过程其实是个深度优先遍历，从上到下，然后最后一行开始从左到右遍历。比如下图从`div1`开始遍历的话，遍历的顺序就应该是`div1 -> div2 -> h1 -> a -> div2 -> p -> div1`。可以看到这个序列中，当我们`return`父节点时，这些父节点会被第二次遍历，所以我们写代码时，`return`的父节点不会作为下一个任务返回，只有`sibling`和`child`才会作为下一个任务返回。
 
-![image-20200610162336915](../../images/React/FiberAndHooks/image-20200610162336915.png)
+<img src="../../images/React/FiberAndHooks/image-20200610162336915.png">
 
 ```javascript
 // performUnitOfWork用来执行任务，参数是我们的当前fiber任务，返回值是下一个任务
@@ -708,7 +708,7 @@ if (something) {
 
 上述代码不能保证每次`something`都满足，可能导致`useState`这次`render`执行了，下次又没执行，这样新老节点的下标就匹配不上了，对于这种代码，`React`会直接报错：
 
-![image-20200619161005858](../../images/React/FiberAndHooks/image-20200619161005858.png)
+<img src="../../images/React/FiberAndHooks/image-20200619161005858.png">
 
 ## 用Hooks模拟Class组件
 

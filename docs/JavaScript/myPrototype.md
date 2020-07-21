@@ -80,23 +80,23 @@ myPuppy.say();    // 汪汪汪
 
 那myPuppy怎么就能够调用`say`方法了呢，我们把他打印出来看下，这个对象上并没有say啊，这是从哪里来的呢？
 
-![image-20200221180325943](../../images/JavaScript/myPrototype/image-20200221180325943.png)
+<img src="../../images/JavaScript/myPrototype/image-20200221180325943.png">
 
 这就该`__proto__`上场了，当你访问一个对象上没有的属性时，比如`myPuppy.say`，对象会去`__proto__`查找。`__proto__`的值就等于父类的prototype, `myPuppy.__proto__`指向了`Puppy.prototype`。
 
-![image-20200221181132495](../../images/JavaScript/myPrototype/image-20200221181132495.png)
+<img src="../../images/JavaScript/myPrototype/image-20200221181132495.png">
 
 如果你访问的属性在`Puppy.prototype`也不存在，那又会继续往`Puppy.prototype.__proto__`上找，这时候其实就找到了`Object.prototype`了，`Object.prototype`再往上找就没有了，也就是null，**这其实就是原型链**。
 
-![image-20200221181533277](../../images/JavaScript/myPrototype/image-20200221181533277.png)
+<img src="../../images/JavaScript/myPrototype/image-20200221181533277.png">
 
 ## constructor
 
 我们说的constructor一般指类的`prototype.constructor`。`prototype.constructor`是prototype上的一个保留属性，这个属性就指向类函数本身，用于指示当前类的构造函数。
 
-![image-20200221183238691](../../images/JavaScript/myPrototype/image-20200221183238691.png)
+<img src="../../images/JavaScript/myPrototype/image-20200221183238691.png">
 
-![image-20200221182045545](../../images/JavaScript/myPrototype/image-20200221182045545.png)
+<img src="../../images/JavaScript/myPrototype/image-20200221182045545.png">
 
 既然`prototype.constructor`是指向构造函数的一个指针，那我们是不是可以通过它来修改构造函数呢？我们来试试就知道了。我们先修改下这个函数，然后新建一个实例看看效果：
 
@@ -117,11 +117,11 @@ console.log(myPuppy2.puppyAge);    // 输出是2
 
 可能有的朋友会说我打印`myPuppy2.constructor`也有值啊，那`constructor`是不是也是对象本身的一个属性呢？其实不是的，之所以你能打印出这个值，是因为你打印的时候，发现myPuppy2本身并不具有这个属性，又去原型链上找了，找到了`prototype.constructor`。我们可以用`hasOwnProperty`看一下就知道了：
 
-![image-20200222152216426](../../images/JavaScript/myPrototype/image-20200222152216426.png)
+<img src="../../images/JavaScript/myPrototype/image-20200222152216426.png">
 
 上面我们其实已经说清楚了`prototype`，`__proto__`，`constructor`几者之间的关系，下面画一张图来更直观的看下：
 
-![image-20200222153906550](../../images/JavaScript/myPrototype/image-20200222153906550.png)
+<img src="../../images/JavaScript/myPrototype/image-20200222153906550.png">
 
 ## 静态方法
 
@@ -316,5 +316,5 @@ console.log(Puppy.statciFunc());  // 我是静态方法，this拿不到实例对
 
 再来看一下完整图：
 
-![image-20200222160832782](../../images/JavaScript/myPrototype/image-20200222160832782.png)
+<img src="../../images/JavaScript/myPrototype/image-20200222160832782.png">
 

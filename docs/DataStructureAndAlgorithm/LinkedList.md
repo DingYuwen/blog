@@ -1,6 +1,6 @@
 链表是一种很常见的数据结构，React的Fiber也是采用链表树的数据结构来解决主线程阻塞的问题。它有一个头结点以及多个普通节点组成，每个节点有自己的值，还有一个next属性指向下一个节点，最后一个节点的next为null。链表就通过next将一个个节点连接起来的。
 
-![image-20200117163015834](../../images/DataStructureAndAlgorithm/LinkedList/image-20200117163015834.png)
+<img src="../../images/DataStructureAndAlgorithm/LinkedList/image-20200117163015834.png">
 
 一个典型的JS链表如下：
 

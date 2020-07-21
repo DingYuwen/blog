@@ -1,6 +1,6 @@
 多列布局在一个网页设计中非常常见，不仅可以用来做外部容器的布局，在一些局部也经常出现多列布局，比如下面圈出来的都是多列布局：
 
-![image-20200113220846222](../../images/Layout/MultiColumns/image-20200113220846222.png)
+<img src="../../images/Layout/MultiColumns/image-20200113220846222.png">
 
 ## 定宽 + 自适应
 
@@ -8,7 +8,7 @@
 
 我们先讲一个最简单的两列布局，左边列定宽，右边列自适应：
 
-![image-20200113221036196](../../images/Layout/MultiColumns/image-20200113221036196.png)
+<img src="../../images/Layout/MultiColumns/image-20200113221036196.png">
 
 下面我们来看看有哪些方法可以解决这个问题：
 
@@ -30,25 +30,25 @@
 
 当我们没有给他设置样式的时候，它是这样子
 
-![image-20200113222241883](../../images/Layout/MultiColumns/image-20200113222241883.png)
+<img src="../../images/Layout/MultiColumns/image-20200113222241883.png">
 
 我们要的是两列布局，所以我们给left加一个`float:left;`，然后它变成这样了：
 
-![image-20200113222421242](../../images/Layout/MultiColumns/image-20200113222421242.png)
+<img src="../../images/Layout/MultiColumns/image-20200113222421242.png">
 
 我们看到right的内容环绕了left，这是浮动（float）的一个特性，那怎么解决呢? 因为右边环绕了左边，我们只需要将右边往右边移过去就行了: `margin-left: 100px;`如果左右两列还想要一点间距，`margin-left`设置大一点就行了。
 
-![image-20200113223157002](../../images/Layout/MultiColumns/image-20200113223157002.png)
+<img src="../../images/Layout/MultiColumns/image-20200113223157002.png">
 
 #### float + overflow
 
 这个方案和前面的`float + margin`的方案很像，只是解决右边环绕左边的思路不一样，我们先给左边写`float:left;`右边还是会环绕左边：
 
-![image-20200113222421242](../../images/Layout/MultiColumns/image-20200113222421242.png)
+<img src="../../images/Layout/MultiColumns/image-20200113222421242.png">
 
 这次我们解决这个问题不用`margin-left`了，而是用`overflow`:
 
-![image-20200113223619772](../../images/Layout/MultiColumns/image-20200113223619772.png)
+<img src="../../images/Layout/MultiColumns/image-20200113223619772.png">
 
 这种方案如果要间距，可以在left上设置一个`margin-right: 20px;`。为什么`overflow:hidden`可以决绝浮动环绕的问题呢，这其实用到了BFC的原理。下面我们来讲讲BFC:
 
@@ -200,11 +200,11 @@ BFC有如下特性：
 
 三列布局，前面两列定宽，最后一列自适应，这个跟前面的一列定宽，一列自适应的很像，很多方案都可以直接用, 比如用`float + overflow`。
 
-![image-20200114162854615](../../images/Layout/MultiColumns/image-20200114162854615.png)
+<img src="../../images/Layout/MultiColumns/image-20200114162854615.png">
 
 ## 不定宽 + 自适应
 
-![image-20200114163050252](../../images/Layout/MultiColumns/image-20200114163050252.png)
+<img src="../../images/Layout/MultiColumns/image-20200114163050252.png">
 
 两列布局，左边不定宽，宽度由内容决定，右边自适应的常见解决方案：
 
@@ -212,17 +212,17 @@ BFC有如下特性：
 
 跟前面定宽的写法很像，只是左边子级宽度不能写死了，要留给它的子元素决定。
 
-![image-20200114163359831](../../images/Layout/MultiColumns/image-20200114163359831.png)
+<img src="../../images/Layout/MultiColumns/image-20200114163359831.png">
 
 ### 不定宽：table
 
 用table也可以实现，但是要注意，`table-layout`不能设置`fixed`了，因为左边宽度不定，我们可以不设置他，这样就是默认值`auto`。默认的table天生宽度就是内容决定的，左右两边如果内容一样长，那他们的长度可能是一样的，都有留白，像这样：
 
-![image-20200114163857549](../../images/Layout/MultiColumns/image-20200114163857549.png)
+<img src="../../images/Layout/MultiColumns/image-20200114163857549.png">
 
 但是我们想要的是左边挤到内容区，留白都给右边，只需要给左边一个很小的宽度，比如`width: 0.1%`或者`1px`都行。
 
-![image-20200114164209914](../../images/Layout/MultiColumns/image-20200114164209914.png)
+<img src="../../images/Layout/MultiColumns/image-20200114164209914.png">
 
 ### 不定宽：flex
 
@@ -244,19 +244,19 @@ BFC有如下特性：
 
 ### 多列不定宽 + 自适应
 
-![image-20200114164529075](../../images/Layout/MultiColumns/image-20200114164529075.png)
+<img src="../../images/Layout/MultiColumns/image-20200114164529075.png">
 
 多列不定宽+自适应前面几种方案都可以实现，以`float + overflow`为例：
 
-![image-20200114164719925](../../images/Layout/MultiColumns/image-20200114164719925.png)
+<img src="../../images/Layout/MultiColumns/image-20200114164719925.png">
 
 ## 等宽
 
-![image-20200114164804503](../../images/Layout/MultiColumns/image-20200114164804503.png)
+<img src="../../images/Layout/MultiColumns/image-20200114164804503.png">
 
 等宽布局就是几个元素，每个元素的宽度是一样的，而且他们之间还可能有间距。如果没有间距，这个很好实现，每个元素宽度25%就行了，但是如果有间距，还设置25%，里面的内容就超出父容器了，就会掉下来。那应该怎么做呢？仔细看写，我们会发现他们有如下关系：
 
-![image-20200114165200857](../../images/Layout/MultiColumns/image-20200114165200857.png)
+<img src="../../images/Layout/MultiColumns/image-20200114165200857.png">
 
 ```javascript
 C = W * N + G * (N -1);  // 此处N为4
@@ -270,7 +270,7 @@ C + G = (W + G) * N;
 
 `C + G = (W + G) * N;`对应的示意图为：
 
-![image-20200114165625839](../../images/Layout/MultiColumns/image-20200114165625839.png)
+<img src="../../images/Layout/MultiColumns/image-20200114165625839.png">
 
 这次我们的html结构如下所示，间距是20px：
 
@@ -300,7 +300,7 @@ C + G = (W + G) * N;
 }
 ```
 
-![image-20200114171032294](../../images/Layout/MultiColumns/image-20200114171032294.png)
+<img src="../../images/Layout/MultiColumns/image-20200114171032294.png">
 
 用float的方式布局有一个不足之处，就是我们写死了`25%`，这个只适用于4列，如果不知道几列就不能这么写了，当然用JS动态计算不算。
 
@@ -308,7 +308,7 @@ C + G = (W + G) * N;
 
 用table就不用写死`25%`，因为在`table-layout:fixed`的情况下，列宽不是根据内容计算的，默认列宽是相等的，天生就是等宽。但是在实现的时候需要注意，我们需要在parent外面再套一个容器，因为用table肯定会把parent设置成table,宽度是100%，没办法进行拓宽，再套一个容器的目的就是给他拓宽用的。
 
-![image-20200114171823653](../../images/Layout/MultiColumns/image-20200114171823653.png)
+<img src="../../images/Layout/MultiColumns/image-20200114171823653.png">
 
 我们思考一下，如果不在parent外面再套一层容器能不能解决？当然是能解决的，在外面再套一层容器的目的无非就是拓宽parent宽度，我们可以直接指定parent宽度为`calc(100% + 20px)`，这样实际的内容会靠右20px，我们再用相对定位左移20px就行了：
 
@@ -331,19 +331,19 @@ C + G = (W + G) * N;
 
 用flex实现这个太简单了，每个子元素都设置`flex:1`就行了。
 
-![image-20200114174136226](../../images/Layout/MultiColumns/image-20200114174136226.png)
+<img src="../../images/Layout/MultiColumns/image-20200114174136226.png">
 
 ## 等高
 
 等高布局要实现的就是当一列高度被撑高时，另一列也会跟着被撑高。
 
-![image-20200114174301840](../../images/Layout/MultiColumns/image-20200114174301840.png)
+<img src="../../images/Layout/MultiColumns/image-20200114174301840.png">
 
 ### 等高：table
 
 又是table，表格的一行里面不同的单元格天生就是等高的。
 
-![image-20200114175219551](../../images/Layout/MultiColumns/image-20200114175219551.png)
+<img src="../../images/Layout/MultiColumns/image-20200114175219551.png">
 
 这个方案里面`table-layut:fixed;`可以不设置。间距用透明的`border-right`来做。`background-clip`是一个CSS3属性，表示背景要显示到的区域，有三个值：
 
@@ -355,7 +355,7 @@ C + G = (W + G) * N;
 
 万能的flex又来了，也很简单，跟前面定宽+自适应的解决方案是一样的。
 
-![image-20200114175737940](../../images/Layout/MultiColumns/image-20200114175737940.png)
+<img src="../../images/Layout/MultiColumns/image-20200114175737940.png">
 
 这是因为flex默认的`align-items`就是`stretch`，就是拉伸到充满容器。
 
@@ -363,7 +363,7 @@ C + G = (W + G) * N;
 
 前面的布局解决方案里面都有float，等高能用float解决吗？答案是可以的，但是稍微麻烦点。在前面定宽+自适应的基础上给左右子元素都写一个极大的`padding-bottom`，这样两个子元素的高度都很大了，然后我们用一个同样的大的负的`margin-bottom`和父级的`overflow:hidden`将高度减回来。
 
-![image-20200114180646852](../../images/Layout/MultiColumns/image-20200114180646852.png)
+<img src="../../images/Layout/MultiColumns/image-20200114180646852.png">
 
 这样做虽然左右子元素看起来是一样高的，但是调试可以发现，他们的高度已经加了9999px，远远超过父容器了。这并不是真正意义上的等高，真正意义上的等高还是要用前面两种方案。
 

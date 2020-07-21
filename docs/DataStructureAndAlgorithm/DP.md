@@ -28,7 +28,7 @@ console.log(res);   // 5
 
 现在我们考虑一下上面的计算过程，计算f(5)的时候需要f(4)与f(3)的值，计算f(4)的时候需要f(3)与f(2)的值，这里f(3)就重复算了两遍。在我们已知f(1)和f(2)的情况下，我们其实只需要计算f(3)，f(4)，f(5)三次计算就行了，但是从下图可知，为了计算f(5)，我们总共计算了8次其他值，里面f(3), f(2), f(1)都有多次重复计算。如果n不是5，而是一个更大的数，计算次数更是指数倍增长，这个递归算法的时间复杂度是$$O(2^n)$$。
 
-![image-20200121174402790](../../images/DataStructureAndAlgorithm/DP/image-20200121174402790.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200121174402790.png">
 
 ### 非递归的斐波拉契数列
 
@@ -68,11 +68,11 @@ console.log(num);   // 5
 
 ## 钢条切割问题
 
-![image-20200121181228767](../../images/DataStructureAndAlgorithm/DP/image-20200121181228767.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200121181228767.png">
 
 先看看暴力穷举怎么做，以一个长度为5的钢条为例：
 
-![image-20200121182429181](../../images/DataStructureAndAlgorithm/DP/image-20200121182429181.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200121182429181.png">
 
 上图红色的位置表示可以下刀切割的位置，每个位置可以有切和不切两种状态，总共是$$2^4 = 16$$种，对于长度为n的钢条，这个情况就是$$2^{n-1}$$种。穷举的方法就不写代码了，下面直接来看递归的方法：
 
@@ -90,7 +90,7 @@ console.log(num);   // 5
 
 分成了左右两部分，那左右两部分又可以继续切，每部分切一刀，又变成了两部分，又可以继续切。这不就将一个长度为5的问题，分解成了4个小问题吗，那最优的方案就是这四个小问题里面最大的那个值，同时不要忘了我们也可以一刀都不切，这是第五个小问题，我们要的答案其实就是这5个小问题里面的最大值。写成公式就是，对于长度为n的钢条，最佳收益公式是：
 
-![image-20200122135927576](../../images/DataStructureAndAlgorithm/DP/image-20200122135927576.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200122135927576.png">
 
 * $$r_n$$ : 表示我们求解的目标，长度为n的钢条的最大收益
 * $$p_n$$:  表示钢条完全不切的情况
@@ -252,13 +252,13 @@ cut_rod3(9);  // {max: 25, solution: [3, 6]}
 
 ## 最长公共子序列（LCS）
 
-![image-20200202214347127](../../images/DataStructureAndAlgorithm/DP/image-20200202214347127.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200202214347127.png">
 
 上叙问题也可以用暴力穷举来求解，先列举出X字符串所有的子串，假设他的长度为m，则总共有$$2^m$$种情况，因为对于X字符串中的每个字符都有留着和不留两种状态，m个字符的全排列种类就是$$2^m$$种。那对应的Y字符串就有$$2^n$$种子串, n为Y的长度。然后再遍历找出最长的公共子序列，这个复杂度非常高，我这里就不写了。
 
 我们观察两个字符串，如果他们最后一个字符相同，则他们的LCS(最长公共子序列简写)就是两个字符串都去掉最后一个字符的LCS再加一。因为最后一个字符相同，所以最后一个字符是他们的子序列，把他去掉，子序列就少了一个，所以他们的LCS是他们去掉最后一个字符的字符串的LCS再加一。如果他们最后一个字符不相同，那他们的LCS就是X去掉最后一个字符与Y的LCS，或者是X与Y去掉最后一个字符的LCS，是他们两个中较长的那一个。写成数学公式就是：
 
-![image-20200202220405084](../../images/DataStructureAndAlgorithm/DP/image-20200202220405084.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200202220405084.png">
 
 看着这个公式，一个规模为`(i, j)`的问题转化为了规模为`(i-1, j-1)`的问题，这不就又可以用递归求解了吗？
 
@@ -332,7 +332,7 @@ console.log(result);   // 4
 
 上面的`result`就是我们构造出来的二维数组，对应的表格如下，每一格的值就是`c(i, j)`，如果$$X_i = Y_j$$，则它的值就是他斜上方的值加一，如果$$X_i \neq Y_i$$，则它的值是上方或者左方较大的那一个。
 
-![image-20200202224206267](../../images/DataStructureAndAlgorithm/DP/image-20200202224206267.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200202224206267.png">
 
 ### 输出最长公共子序列
 
@@ -421,7 +421,7 @@ console.log(result);   // {length: 4, lcs: "BDAB"}
 
 这是[leetcode上的一道题目](https://leetcode-cn.com/problems/edit-distance/)，题目描述如下：
 
-![image-20200209114557615](../../images/DataStructureAndAlgorithm/DP/image-20200209114557615.png)
+<img src="../../images/DataStructureAndAlgorithm/DP/image-20200209114557615.png">
 
 这道题目的思路跟前面最长公共子序列非常像，我们同样假设第一个字符串是$$X=(x_1, x_2 ... x_m)$$,第二个字符串是$$Y=(y_1, y_2 ... y_n)$$。我们要求解的目标为$$r$$, $$r[i][j]$$为长度为$$i$$的$$X$$和长度为$$j$$的$$Y$$的解。我们同样从两个字符串的最后一个字符开始考虑：
 

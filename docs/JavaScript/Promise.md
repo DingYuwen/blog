@@ -75,7 +75,7 @@ request1().then((data) => {
 
 上面的例子里面，`then`是可以链式调用的，后面的`then`可以拿到前面`resolve`出来的数据，我们控制台可以看到三个success依次打出来:
 
-![image-20200324164123892](../../images/JavaScript/Promise/image-20200324164123892.png)
+<img src="../../images/JavaScript/Promise/image-20200324164123892.png">
 
 ## Promises/A+规范
 
@@ -100,7 +100,7 @@ Promise总共有三个状态:
 
 注意这里的**不可变**指的是`===`，也就是说，如果`value`或者`reason`是对象，只要保证引用不变就行，规范没有强制要求里面的属性也不变。Promise状态其实很简单，画张图就是:
 
-![image-20200324173555225](../../images/JavaScript/Promise/image-20200324173555225.png)
+<img src="../../images/JavaScript/Promise/image-20200324173555225.png">
 
 ### then方法
 
@@ -366,7 +366,7 @@ promise2.then(function(value) {
 
 上述代码输出如下图，符合我们的预期，说明到目前为止，我们的代码都没问题:
 
-![image-20200325172257655](../../images/JavaScript/Promise/image-20200325172257655.png)
+<img src="../../images/JavaScript/Promise/image-20200325172257655.png">
 
 ### `then`的返回值
 
@@ -705,7 +705,7 @@ if(x === null) {
 
 这个测试总共872用例，我们写的Promise完美通过了所有用例:
 
-![image-20200326214543894](../../images/JavaScript/Promise/image-20200326214543894.png)
+<img src="../../images/JavaScript/Promise/image-20200326214543894.png">
 
 ### 其他Promise方法
 

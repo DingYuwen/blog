@@ -7,13 +7,13 @@
 
 以jQuery为例，来看看他的基本架构，然后再来一步步看看这个是什么意思，如果大家能够打开代码跟着我一步步走下去，食用效果更佳：
 
-![image-20200213113549890](../../images/Architecture/readSourceCode/image-20200213113549890.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213113549890.png">
 
 ### 找入口
 
 我们这里用的版本是3.4.1, 我们用npm将jQuery下载下来，然后去`node_modules`里面找到他。
 
-![image-20200212114248257](../../images/Architecture/readSourceCode/image-20200212114248257.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212114248257.png">
 
 打开`package.json`，找到`main`属性，这个属性是我们程序引入它时查找的路径，通常就是程序的入口文件。如果没有这个属性，入口一般是目录下的`index.js`文件：
 
@@ -25,13 +25,13 @@
 
 我们打开`dist/jquery.js`，发现他有上万行代码，瞬间心里有点懵逼，但是不要怕！我们把最外层的函数都折叠起来，外层结构瞬间清晰了：
 
-![image-20200212114717497](../../images/Architecture/readSourceCode/image-20200212114717497.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212114717497.png">
 
 （请忽略图上我的complexity插件。）这个外层结构不就是一个自执行函数吗？他往里面传了两个参数，一个是global，一个是factory。global很好理解，判断一下是不是浏览器，如果是浏览器就把window传进去，如果不是，就传this。这里有个技巧是将window作为参数传进去，而不是直接在函数内部去拿window，这是因为在里面拿会往上找一层才能拿到，会稍微慢一点。
 
 第二个参数factory看名字是个工厂，我们展开上面的函数看看：
 
-![image-20200212120222632](../../images/Architecture/readSourceCode/image-20200212120222632.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212120222632.png">
 
 先是做了一些检测，兼容CommonJS和node.js，其实核心代码就一行：
 
@@ -41,23 +41,23 @@ factory( global );
 
 将global作为参数调用了factory，看来jQuery真正的核心还是这个factory方法，他其实就是外面传进来的第二个参数，我们展开它，发现这个方法有一万行代码，果然是核心，这下又不知道怎么入手了。这时候想想我们使用jQuery的时候是怎么用的，我们都是直接用`$`就调用了，说明他肯定在window上挂载了一个`$`，直接在代码里面搜`window.$`，找到了：
 
-![image-20200212151236183](../../images/Architecture/readSourceCode/image-20200212151236183.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212151236183.png">
 
 这下我们找到了jQuery真正的对象`jQuery`，这里可以直接通过编辑器跳转到定义，发现`jQuery`也是一个很简单的方法. 
 
-![image-20200212152003795](../../images/Architecture/readSourceCode/image-20200212152003795.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212152003795.png">
 
 这个方法直接调用了`jQuery.fn.init`,这个方法也可以直接在文件里面搜到，我们发现他支持几种`selector`: 字符串，DOM元素和方法，如果展开他们，你会发现他们都是根据`selector`去把匹配的结果挂载到this上，然后返回`this`。如果传入的`selector`不是支持的类型，他会调用`jQuery.makeArray`造一个类数组结构挂载在this上，然后返回this。那这时候的`this`指向谁呢？回到前面图片的代码`return new jQuery.fn.init( selector, context );`,他是通过`new`关键字来调用的`jQuery.fn.init`，那这里面this就指向new出来的实例对象，这个实例对象又作为返回值被jQuery方法返回出去了，成为了我们平时调用`$('selector')`所拿到的返回值。
 
-![image-20200212153154472](../../images/Architecture/readSourceCode/image-20200212153154472.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212153154472.png">
 
 那我们平时使用的`$('selector').first()`和`$.ajax`又是怎么实现的呢，似乎整个调用流程都没看到这些方法呢。这要回到我们前面`jQuery.fn.init`，我们发现在`init`前面还有一个`fn`，那这个fn是什么东西呢？我们可以直接搜索"jQuery.fn ="，看看他在哪里定义的：
 
-![image-20200212154458630](../../images/Architecture/readSourceCode/image-20200212154458630.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212154458630.png">
 
 瞬间恍然大悟，原来`jQuery.fn`就是`jQuery.prototype`，展开他我们就找到了`first`方法。但是这个是jQuery的实例对象才会继承的方法，我们返回的并不是`new jQuery()`，而是`new jQuery.fn.init`。为什么在这个实例里面也能拿到jQuery的原型对象呢？原来在`jQuery.fn.init`函数定义下面我们还发现了一行代码：
 
-![image-20200212161439329](../../images/Architecture/readSourceCode/image-20200212161439329.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212161439329.png">
 
 这行代码将`jQuery.fn`也就是`jQuery.prototype`又赋值给了`jQuery.fn.init.prototype`。这就实现了我们通过`new jQuery.fn.init()`拿到的实例对象，也就是`jQuery()`返回的对象能够访问到`jQuery.prototype`上的对象。这就是`$('selector').first()`的挂载机制。
 
@@ -78,11 +78,11 @@ const instance = $();
 
 那`$.ajax`又是怎么挂载的呢？我们直接在代码里面搜`ajax`，我们发现他包在了`jQuery.extend`的参数里面：
 
-![image-20200212162728051](../../images/Architecture/readSourceCode/image-20200212162728051.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212162728051.png">
 
 那`jQuery.extend`是我们必须要看的方法：
 
-![image-20200212170006961](../../images/Architecture/readSourceCode/image-20200212170006961.png)
+<img src="../../images/Architecture/readSourceCode/image-20200212170006961.png">
 
 还好这个方法并没有太多的外部调用，仔细阅读下我们发现了他的功能其实就是一个拷贝：
 
@@ -94,7 +94,7 @@ const instance = $();
 
 通过上面的的一系列的顺藤摸瓜，其实我们已经知道了jQuery的基本架构了，包括他的实例化，实例方法的挂载，静态方法的挂载，以及`jQuery.fn`，`jQuery.fn.init`，`jQuery.prototype`之间的关系。画下来就是最开始那张图：
 
- ![image-20200213113549890](../../images/Architecture/readSourceCode/image-20200213113549890.png)
+ <img src="../../images/Architecture/readSourceCode/image-20200213113549890.png">
 
 有了这张图，我们再去读里面具体的方法心里就更有谱了。这里主要讲怎么入手，怎么理清架构，其他具体的方法篇幅有限这里就不展开了。整个过程中我们可以看到jQuery大量运用了`prototype`，如果你对`prototype`还不是很了解可能会看得云里雾里，那可以先看看[我这篇讲prototype的文章](https://juejin.im/post/5e50e5b16fb9a07c9a1959af)。
 
@@ -112,7 +112,7 @@ const instance = $();
 
 Zepto是一个跟jQuery很类似的框架，架构也是类似的，我们完全可以按照前面jQuery的思路整理出他的架构。具体流程我就不写了，大家可以根据实例化流程图梳理出来，下面画出我整理的结构图。
 
-![image-20200213113509514](../../images/Architecture/readSourceCode/image-20200213113509514.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213113509514.png">
 
 从上图可以看出当我们实例化一个Zepto的时候，实际返回的是`new Z()`的一个实例对象，又因为`Z.prototype = $.fn`，所以这个实例对象可以访问`$.fn`上的方法。Zepto跟jQuery最大的区别是扩展实例方法和静态方法的方式不一样。jQuery是通过`$.fn.extend`和`$.extend`来做的，而Zepto是通过自执行函数，将Zepto作为参数传进去，然后在自执行函数里面直接对`$`和`$.fn`添加属性来实现的。
 
@@ -120,7 +120,7 @@ Zepto是一个跟jQuery很类似的框架，架构也是类似的，我们完全
 
 下图是Zepto 1.2.0的代码截图：
 
-![image-20200213114304005](../../images/Architecture/readSourceCode/image-20200213114304005.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213114304005.png">
 
 可以看到这个自执行函数将`Zepto`作为参数传进去了，这个`Zepto`就是`window.Zepto`，也就是`window.$`，然后`serialize`等方法是直接添加到了`$.fn`上，也就是`Z.prototype`上，这样我们`new Z()`得到的实例对象就能访问`serialize`方法了。
 
@@ -128,13 +128,13 @@ Zepto是一个跟jQuery很类似的框架，架构也是类似的，我们完全
 
 还是来一张代码截图，下图我只保留了核心代码：
 
-![image-20200213114914409](../../images/Architecture/readSourceCode/image-20200213114914409.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213114914409.png">
 
 上图可以看出，静态方法的扩展跟实例方法类似，也是一个自执行函数，直接将方法添加到了`$`上。
 
 其实Zepto也有`$.extend`方法:
 
-![image-20200213115427371](../../images/Architecture/readSourceCode/image-20200213115427371.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213115427371.png">
 
 从源码可以看出，`$.extend`只是将一个对象拷贝到`target`上，并没有jQuery中默认拷贝到`this`的功能。所以这个这个`extend`如果要拿来做扩展，应该这么写：
 
@@ -158,27 +158,27 @@ Zepto是一个跟jQuery很类似的框架，架构也是类似的，我们完全
 
 建造者模式暴露出来的是一个类，而不是一个工厂，使用的时候需要用户new一个实例出来。比如Vue(v 2.6.11)，我们在使用的时候就是`new Vue()`获得一个实例，拿来使用。打开Vue源码，发现他也是一个自执行方法，而且也有一个`factory`方法，但是这个方法并没有返回一个实例，而是返回了一个`Vue`方法，这也就是我们真正new的那个Vue。
 
-![image-20200213154612818](../../images/Architecture/readSourceCode/image-20200213154612818.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213154612818.png">
 
 这个Vue方法也很简单，只有一个必须通过new执行的检测，注意这里的this，如果你直接调用这个方法，那这个this指向调用者或者window，他就不是一个Vue的实例，会抛出警告。如果你通过new来调用，这个方法就成了构造函数，这个this就指向new出来的那个实例对象，这个检测就能通过，然后做一些初始化操作。
 
-![image-20200213155002993](../../images/Architecture/readSourceCode/image-20200213155002993.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213155002993.png">
 
 Vue的调用层级并没有jQuery和Zepto那么深，函数挂载方式也很明显。在Vue构造函数下面就有几行代码执行了几个mixin。
 
-![image-20200213155554876](../../images/Architecture/readSourceCode/image-20200213155554876.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213155554876.png">
 
 我们随便打开一个mixin看看，这个mixin其实就是在`Vue.prototype`上添加了相关的属性，实例方法也是通过这种方式添加上去的。注意有些地方使用了直接赋值，有些地方使用了`Object.defineProperty`，这是因为`Object.defineProperty`可以限制属性的修改，可以设置成只读的，[具体可以看我这篇文章](https://juejin.im/post/5e1fcbf9e51d451c52193791#heading-1)。
 
-![image-20200213155727819](../../images/Architecture/readSourceCode/image-20200213155727819.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213155727819.png">
 
 其实Vue也有一些静态方法，比如`Vue.extend`，这些方法也是直接添加到Vue上的，在源码里面有一个方法`initGlobalAPI`，这个方法里面就负责了静态方法的创建：
 
-![image-20200213160421748](../../images/Architecture/readSourceCode/image-20200213160421748.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213160421748.png">
 
 我们打开`initExtend`看看：
 
-![image-20200213160709238](../../images/Architecture/readSourceCode/image-20200213160709238.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213160709238.png">
 
 这个方法就直接把`extend`方法挂载到了`Vue`上成为了一个静态方法。
 
@@ -203,7 +203,7 @@ export function attr() {}
 
 比较典型的函数式框架是`lodash-es`，注意是**`lodash-es`**，而不是`lodash`，`lodash`是比较老的版本，不能支持tree-shaking，因为它仍然是采用的往全局对象(window)上挂载一个复杂对象的方法。而`lodash-es`就是将单个方法export出来的方法，如果你使用时只import了部分方法，其他没用到的方法并不会打包进去。
 
-![image-20200213152623173](../../images/Architecture/readSourceCode/image-20200213152623173.png)
+<img src="../../images/Architecture/readSourceCode/image-20200213152623173.png">
 
 ## 总结
 

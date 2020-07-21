@@ -183,7 +183,7 @@ return (
 
 上面代码我们通过`context`传递了一个全局配置，可以看到我们文字颜色已经变了:
 
-![image-20200703171322676](../../images/React/React-Redux/image-20200703171322676.png)
+<img src="../../images/React/React-Redux/image-20200703171322676.png">
 
 ### 使用`useContext`接收参数
 

@@ -294,7 +294,7 @@ function store() {
 
 然后我们用两种方式调用来检测下:
 
-![image-20200521154322364](../../images/JavaScript/Encapsulate/image-20200521154322364.png)
+<img src="../../images/JavaScript/Encapsulate/image-20200521154322364.png">
 
 ### 实例：vue-router
 

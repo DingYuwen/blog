@@ -14,11 +14,11 @@ function func() {
 
 这个方法很简单，只是给this添加了一个name属性，我们把这个方法复制到Chrome调试工具看下结果：
 
-![image-20200226153116734](../../images/JavaScript/this/image-20200226153116734.png)
+<img src="../../images/JavaScript/this/image-20200226153116734.png">
 
 上图中我们直接调用了`func()`，发现this指向的是window，`name`属性添加到了window上。下面我们换一种调用方式，我们换成`new func()`来调用：
 
-![image-20200226153812137](../../images/JavaScript/this/image-20200226153812137.png)
+<img src="../../images/JavaScript/this/image-20200226153812137.png">
 
 我们看到输出了两个`func {name: "小小飞"}`，一个是我们new返回的对象，另一个是方法里面的console。这两个值是一样的，说明这时候方法里面this就指向了new返回的对象，而不是前面例子的window了。这是因为当你使用`new`去调用一个方法时，这个方法其实就作为构造函数使用了，这时候的this指向的是new出来的对象。
 
@@ -30,7 +30,7 @@ function func() {
 
 this的这种特性还有一些妙用。一个函数可以直接调用，也可以用new调用，那假如我只想使用者通过new调用有没有办法呢？下图截取自Vue源码：
 
-![image-20200226160322071](../../images/JavaScript/this/image-20200226160322071.png)
+<img src="../../images/JavaScript/this/image-20200226160322071.png">
 
 Vue巧妙利用了this的特性，通过检查this是不是Vue的一个实例来检测使用者是通过new调用的还是直接调用的。
 
@@ -52,11 +52,11 @@ function func() {
 
 直接执行：
 
-![image-20200226162443098](../../images/JavaScript/this/image-20200226162443098.png)
+<img src="../../images/JavaScript/this/image-20200226162443098.png">
 
 使用new执行：
 
-![image-20200226162626673](../../images/JavaScript/this/image-20200226162626673.png)
+<img src="../../images/JavaScript/this/image-20200226162626673.png">
 
 我们发现无论是直接执行，还是使用new执行，this的值都指向的window。直接执行时很好理解，因为没有明确调用者，那this自然就是window。**需要注意的是使用new时，只有被new的`func`才是构造函数，他的this指向new出来的对象，他里面的函数的this还是指向`window`。**
 

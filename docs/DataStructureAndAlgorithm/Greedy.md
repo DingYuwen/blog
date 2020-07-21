@@ -37,7 +37,7 @@ console.log(result);   // [1, 0, 1, 1, 1]
 
 上面的找零问题就是贪心算法，每次都去贪最大面值的，发现贪不了了，再去贪次大的。从概念上讲，贪心算法是：
 
-![image-20200220105715893](../../images/DataStructureAndAlgorithm/Greedy/image-20200220105715893.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220105715893.png">
 
 从上面的定义可以看出，并不是所有问题都可以用贪心算法来求解的，因为它每次拿到的只是局部最优解，局部最优解组合起来并不一定是全局最优解。下面我们来看一个这样的例子：
 
@@ -55,7 +55,7 @@ console.log(result);   // [1, 0, 1, 1, 1]
 
 下面来看个例子：
 
-![image-20200220110835213](../../images/DataStructureAndAlgorithm/Greedy/image-20200220110835213.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220110835213.png">
 
 这个问题用我们平时的思维也很好想，要拿到总价值最大，那我们就贪呗，就拿最贵的，即价值除以重量的数最大的。但是每次都拿最贵的，是不是最后总价值最大呢？我们先假设上面的例子是0-1背包，最贵的是v1，然后是v2，v3。我们先拿v1, 背包还剩40，拿到总价值是60，然后拿v2，背包还剩20，拿到总价值是160。然后就拿不下了，因为v3的重量是30，我们背包只剩20了，装不下了。但是这个显然不是全局最优解，因为我们明显可以看出，如果我们拿v2，v3，背包刚好装满，总价值是220，这才是最优解。**所以0-1背包问题不能用贪心算法。**
 
@@ -122,7 +122,7 @@ console.log(result);
 
 运行结果：
 
-![image-20200228103002966](../../images/DataStructureAndAlgorithm/Greedy/image-20200228103002966.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200228103002966.png">
 
 ### 0-1背包
 
@@ -305,13 +305,13 @@ console.log(result);   // 220
 
 上面代码的输出：
 
-![image-20200220144941561](../../images/DataStructureAndAlgorithm/Greedy/image-20200220144941561.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220144941561.png">
 
 ## 数字拼接问题
 
 再来看一个贪心算法的问题，加深下理解，这个问题如下：
 
-![image-20200220153438242](../../images/DataStructureAndAlgorithm/Greedy/image-20200220153438242.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220153438242.png">
 
 这个问题看起来也不难，我们有时候也会遇到类似的问题，我们可以很直观的想到一个解法：看哪个数字的第一个数字大，把他排前面，比如32和94，把第一位是9的94放前面，得到9432，肯定比32放前面的3294大。这其实就是按照字符串大小来排序嘛，字符大的排前面，但是这种解法正确吗？我们再来看两个数字，假如我们有728和7286，按照字符序，7286排前面，得到7286728，但是这个值没有728放前面的7287286大。说明单纯的字符序是搞不定这个的，对于两个数字a,b，如果他们的长度一样，那按照字符序就没问题，如果他们长度不一样，这个解法就不一定对了，那怎么办呢？其实也简单，我们看看a+b和b+a拼成的数字，哪个大就行了。
 
@@ -354,11 +354,11 @@ console.log(res);    // [94, 71, 6, 32, 1286, 128]
 
 活动选择问题稍微难一点，也可以用贪心，但是需要贪的东西没前面的题目那么直观，我们先来看看题目：
 
-![image-20200220155950342](../../images/DataStructureAndAlgorithm/Greedy/image-20200220155950342.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220155950342.png">
 
 这个问题应该这么思考：为了能尽量多的安排活动，我们在安排一个活动时，应该尽量给后面的活动多留时间，这样后面有机会可以安排更多的活动。换句话说就是，应该把结束时间最早的活动安排在第一个，再剩下的时间里面继续安排结束时间早的活动。这里的贪心其实贪的就是结束时间早的，这个结论其实可以用数学来证明的：
 
-![image-20200220161538654](../../images/DataStructureAndAlgorithm/Greedy/image-20200220161538654.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220161538654.png">
 
 下面来实现下代码：
 
@@ -410,7 +410,7 @@ console.log(result);
 
 上面代码的运行结果如下：
 
-![image-20200220163750591](../../images/DataStructureAndAlgorithm/Greedy/image-20200220163750591.png)
+<img src="../../images/DataStructureAndAlgorithm/Greedy/image-20200220163750591.png">
 
 ## 总结
 

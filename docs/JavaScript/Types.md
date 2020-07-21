@@ -4,11 +4,11 @@ JS有很多数据类型，对于不同数据类型的识别和相互转换也是
 
 JS中的数据类型主要分为两大类：原始类型(值类型)和引用类型。常见的数据类型如下图所示：
 
-![image-20200506103537269](../../images/JavaScript/Types/image-20200506103537269.png)
+<img src="../../images/JavaScript/Types/image-20200506103537269.png">
 
 原始数据类型存在栈中，引用类型在栈中存的是一个引用地址，这个地址指向的是堆中的一个数据对象。需要注意的是`null`在这里我们算在原始类型里面，但是你用`typeof`的时候会发现他是`object`，原因是就算他是一个对象，那他应该在栈中存一个引用地址，但是他是一个空对象，所以这个地址为空，也就是不对应堆中的任意一个数据，他在堆中没有数据，只存在于栈中，所以这里算为了原始类型。引用类型其实主要就是`Object`，`Array`和`Function`这些其实也都是`Object`派生出来的。[关于这两种类型在内存中的更详细的知识可以看这篇文章。](https://juejin.im/post/5e2155cee51d4552455a8878)
 
-![image-20200506104330145](../../images/JavaScript/Types/image-20200506104330145.png)
+<img src="../../images/JavaScript/Types/image-20200506104330145.png">
 
 下面我们来看看这两种类型的区别：
 
@@ -16,9 +16,9 @@ JS中的数据类型主要分为两大类：原始类型(值类型)和引用类�
 
 1. 原始类型的值无法更改，要更改只能重新赋值。像下面这样尝试去修改是不行的，但是整个重新赋值可以。
 
-   ![image-20200506104958681](../../images/JavaScript/Types/image-20200506104958681.png)
+   <img src="../../images/JavaScript/Types/image-20200506104958681.png">
 
-   ![image-20200506105044457](../../images/JavaScript/Types/image-20200506105044457.png)
+   <img src="../../images/JavaScript/Types/image-20200506105044457.png">
 
 2. 原始类型的比较就是比较值，值相等，他们就相等
 
@@ -26,21 +26,21 @@ JS中的数据类型主要分为两大类：原始类型(值类型)和引用类�
 
 1. 引用类型的值是可以修改的，注意这个时候我们虽然修改了`a`里面的属性，但是`a`在栈上的引用地址并没有变化，变化的是堆中的数据。
 
-   ![image-20200506105513907](../../images/JavaScript/Types/image-20200506105513907.png)
+   <img src="../../images/JavaScript/Types/image-20200506105513907.png">
 
 2. 引用类型的比较是比较他们的索引地址，而不是他们的值。比如下面两个对象，看着是一样的，但是他们的引用地址不一样，其实是不等的：
 
-   ![image-20200506110135018](../../images/JavaScript/Types/image-20200506110135018.png)
+   <img src="../../images/JavaScript/Types/image-20200506110135018.png">
 
    要想让他们相等，得直接将`b`赋值为`a`，这样他们的引用地址一样，就是相等的。
 
-   ![image-20200506110256501](../../images/JavaScript/Types/image-20200506110256501.png)
+   <img src="../../images/JavaScript/Types/image-20200506110256501.png">
 
 ## 类型转换
 
 JS中当不同类型的数据进行计算的时候会进行类型转换，比如下面的例子：
 
-![image-20200506110621714](../../images/JavaScript/Types/image-20200506110621714.png)
+<img src="../../images/JavaScript/Types/image-20200506110621714.png">
 
 上面的例子中，我们用了加减来操作几个非数字的类型，这时候JS会进行隐式的类型转换，然后再进行加减运算。除了JS本身的隐式转换外，有时候我们还会主动进行类型转换，这就算是显示类型转换了。
 
@@ -98,37 +98,37 @@ console.log(!!s);  // true
 
 当我们使用`==`进行比较时，如果两边的类型不同，JS会进行类型转换，然后再比较，`===`则不会进行类型转换，如果`===`两边的数据类型不同，直接返回`false`。
 
-![image-20200506112606774](../../images/JavaScript/Types/image-20200506112606774.png)
+<img src="../../images/JavaScript/Types/image-20200506112606774.png">
 
 上面只是列举了其中几种情况，更多的情况可以参考下面这种表，这个表来自于MDN。这个表的内容比较多，有些是规范直接定义的，比如`null == undefined`，也没有太多逻辑可言。我们不确定时可以来查下这个表，但是实际开发中其实是不建议使用`==`的，因为如果你把这个转换关系记错了的话可能就会引入比较难排查的bug，一般推荐直接使用`===`。
 
-![image-20200506111718423](../../images/JavaScript/Types/image-20200506111718423.png)
+<img src="../../images/JavaScript/Types/image-20200506111718423.png">
 
 #### 转换规则
 
 下面这几张表是一些转换规则，来自于《JS权威指南》:
 
-![image-20200505185955549](../../images/JavaScript/Types/image-20200505185955549.png)
+<img src="../../images/JavaScript/Types/image-20200505185955549.png">
 
-![image-20200505190049837](../../images/JavaScript/Types/image-20200505190049837.png)
+<img src="../../images/JavaScript/Types/image-20200505190049837.png">
 
-![image-20200505190124871](../../images/JavaScript/Types/image-20200505190124871.png)
+<img src="../../images/JavaScript/Types/image-20200505190124871.png">
 
 ### 显式类型转换
 
 显式类型转换是我们自己写代码明确转换的类型，可以使代码看起来更清晰，是实际开发时推荐的做法。
 
-![image-20200506113002845](../../images/JavaScript/Types/image-20200506113002845.png)
+<img src="../../images/JavaScript/Types/image-20200506113002845.png">
 
 #### 转字符串
 
 显式转换为字符串可以使用`toString`方法，它的执行结果通常和`String()`方法一致。Number类型的`toString`方法还支持参数，可以指定需要转换的进制。下面的图是一些原始类型的`toString()`，`null`和`undefined`没有`toString`方法，调用会报错:
 
-![image-20200506113217062](../../images/JavaScript/Types/image-20200506113217062.png)
+<img src="../../images/JavaScript/Types/image-20200506113217062.png">
 
 Number类型的`toString`方法支持进制:
 
-![image-20200506113346662](../../images/JavaScript/Types/image-20200506113346662.png)
+<img src="../../images/JavaScript/Types/image-20200506113346662.png">
 
 #### 转数值
 
@@ -177,7 +177,7 @@ console.log(c);
 
 上述代码输出是，跟我们预期一样:
 
-![image-20200506160225229](../../images/JavaScript/Types/image-20200506160225229.png)
+<img src="../../images/JavaScript/Types/image-20200506160225229.png">
 
 ### 对象转数值
 
@@ -212,7 +212,7 @@ console.log(c);
 
 上述代码的输出都是`NaN`，这是因为我们`toString`方法返回的`bbb`没办法转化为正常数值，强行转就是`NaN`:
 
-![image-20200506160750545](../../images/JavaScript/Types/image-20200506160750545.png)
+<img src="../../images/JavaScript/Types/image-20200506160750545.png">
 
 ## 类型检测
 
@@ -277,7 +277,7 @@ b.constructor === a;    // 注意这时候是 false
 
 上面为`false`的原因是，`constructor`这个属性其实是挂在`a.prototype`下面的，我们在给`a.prototype`赋值的时候其实覆盖了之前的整个`prototype`，也覆盖了`a.prototype.constructor`,这时候他其实压根就没有这个属性，如果我们非要访问这个属性，只能去原型链上找，这时候会找到`Object`:
 
-![image-20200506172606821](../../images/JavaScript/Types/image-20200506172606821.png)
+<img src="../../images/JavaScript/Types/image-20200506172606821.png">
 
 要避免这个问题，我们在给原型添加属性时，最好不要整个覆盖，而是只添加我们需要的属性，上面的改为:
 
@@ -355,7 +355,7 @@ Number.isInteger('aaa'); // false
 
 JS其实没有一种完美的方法来检测所有的类型，具体的检测方法需要我们根据实际情况来进行选择和取舍。下面是几种方法的总结：
 
-![image-20200506180011564](../../images/JavaScript/Types/image-20200506180011564.png)
+<img src="../../images/JavaScript/Types/image-20200506180011564.png">
 
 ## 总结
 

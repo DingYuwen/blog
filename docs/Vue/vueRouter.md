@@ -41,7 +41,7 @@ Vue-Router的路由模式有两种：hash和history，这两种模式的监听�
 
 hash模式的值可以通过`location.hash`拿到，监听改变可以使用`onhashchange`事件；history的值可以用`location.pathname`拿到，可以用`onpopstate`事件来监听改变。
 
-![image-20200119151237561](../../images/Vue/VueRouter/image-20200119151237561.png)
+<img src="../../images/Vue/VueRouter/image-20200119151237561.png">
 
 ### Vue插件
 
@@ -69,7 +69,7 @@ pluginA.install = function(vue) {
 }
 ```
 
-![image-20200119172806418](../../images/Vue/VueRouter/image-20200119172806418.png)
+<img src="../../images/Vue/VueRouter/image-20200119172806418.png">
 
 我们要实现路由插件功能的关键是使用`vue.mixin`API，这个API可以将一些变量和方法全局混入Vue的实例，下面我们混入一个测试数据，并渲染到跟路由上：
 
@@ -85,7 +85,7 @@ pluginA.install = function(vue) {
 
 然后在所有路由上都可以直接使用这个变量了，跟路由也是，而不需要导入。
 
-![image-20200119173601260](../../images/Vue/VueRouter/image-20200119173601260.png)
+<img src="../../images/Vue/VueRouter/image-20200119173601260.png">
 
 `vue.mixin`不仅可以混入变量和方法，还可以混入生命周期，在这里混入的生命周期在每个组件的这个生命周期的这个阶段都会调用：
 
@@ -105,7 +105,7 @@ pluginA.install = function(vue) {
 
 需要注意的是，`new Vue`和`App.vue`也算两个组件，也会运行一次生命周期，在`/test`下只有一个Test组件的情况下，`I am global created`会打印三次，分别对应`new Vue`，`App.vue`和`Test`组件。在混入的方法或者生命周期里面可以拿到`this`，这个`this`分别指向对应的组件实例，很多插件特性都是靠这个实现的
 
-![image-20200119175637278](../../images/Vue/VueRouter/image-20200119175637278.png)
+<img src="../../images/Vue/VueRouter/image-20200119175637278.png">
 
 为了实现我们的route插件，除了需要`vue.mixin`外，还需要`vue.util`，这是个工具类，里面主要有四个方法：
 

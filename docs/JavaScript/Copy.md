@@ -106,7 +106,7 @@ console.log(newObj);
 
 结果如下图，我们发现`drive`和`girlFriend`两个属性都丢了，**这是因为`JSON.stringify`不能将方法和`undefined`属性转化为字符串，在转换为字符串过程中就丢了，再解析回来自然也没有了**。
 
-![image-20200115153516776](../../images/JavaScript/Copy/image-20200115153516776.png)
+<img src="../../images/JavaScript/Copy/image-20200115153516776.png">
 
 ### 递归遍历
 
@@ -137,7 +137,7 @@ let newObj = deepCopy(target2);
 console.log(newObj);
 ```
 
-![image-20200115154213386](../../images/JavaScript/Copy/image-20200115154213386.png)
+<img src="../../images/JavaScript/Copy/image-20200115154213386.png">
 
 这下我们的`drive`方法和`girlFriend`属性都复制过来了。
 
@@ -161,11 +161,11 @@ let newObj = deepCopy(target3);
 console.log(newObj);
 ```
 
-![image-20200115155047797](../../images/JavaScript/Copy/image-20200115155047797.png)
+<img src="../../images/JavaScript/Copy/image-20200115155047797.png">
 
 我们发现`Symbol`属性丢了，那怎么办呢？这个原因是`for...in...`循环拿不到`Symbol`属性，如果要拿`Symbol`属性，我们可以用`Object.getOwnPropertySymbols`和`Reflect.ownKeys`。`Object.getOwnPropertySymbols`会返回对象的`Symbol`属性列表：
 
-![image-20200115160547564](../../images/JavaScript/Copy/image-20200115160547564.png)
+<img src="../../images/JavaScript/Copy/image-20200115160547564.png">
 
 `Reflect.ownKeys`会返回对象的所有自有属性，包括`Symbol`属性和不可枚举属性，但是不包括继承属性。所以我们的`deepCopy`方法改为：
 
@@ -194,7 +194,7 @@ let newObj = deepCopy(target3);
 console.log(newObj);
 ```
 
-![image-20200115161745677](../../images/JavaScript/Copy/image-20200115161745677.png)
+<img src="../../images/JavaScript/Copy/image-20200115161745677.png">
 
 ### 解决循环引用
 
@@ -213,7 +213,7 @@ target4.target = target4;
 
 这个对象的`target`属性又引用了自身，所以有了循环引用，用我们之前的深拷贝方法直接会报错
 
-![image-20200115162212993](../../images/JavaScript/Copy/image-20200115162212993.png)
+<img src="../../images/JavaScript/Copy/image-20200115162212993.png">
 
 要解决这个问题，我们需要每次都将引用类型的键和值都记录下来，由于Object的键不能是对象，所以我们不能用Object记录，这里采用了WeakMap来记录：
 
