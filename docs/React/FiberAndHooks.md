@@ -16,7 +16,7 @@
 
 本文程序跑起来效果如下：
 
-![Jun-19-2020 17-01-28](../../images/React/FiberAndHooks/Jun-19-2020 17-01-28.gif)
+<img src="../../images/React/FiberAndHooks/Jun-19-2020 17-01-28.gif">
 
 ## JSX和creatElement
 
@@ -168,11 +168,11 @@ function render(vDom, container) {
 
 上面我们简单的实现了虚拟DOM渲染到页面上的代码，这部分工作被React官方称为renderer，renderer是第三方可以自己实现的一个模块，还有个核心模块叫做reconsiler，reconsiler的一大功能就是大家熟知的diff，他会计算出应该更新哪些页面节点，然后将需要更新的节点虚拟DOM传递给renderer，renderer负责将这些节点渲染到页面上。但是这个流程有个问题，虽然React的diff算法是经过优化的，但是他却是同步的，renderer负责操作DOM的`appendChild`等API也是同步的，也就是说如果有大量节点需要更新，JS线程的运行时间可能会比较长，在这段时间浏览器是不会响应其他事件的，因为JS线程和GUI线程是互斥的，JS运行时页面就不会响应，这个时间太长了，用户就可能看到卡顿，特别是动画的卡顿会很明显。在[React的官方演讲](http://conf2017.reactjs.org/speakers/lin)中有个例子，可以很明显的看到这种同步计算造成的卡顿：
 
-![1625d95bc100c7fe](../../images/React/FiberAndHooks/1625d95bc100c7fe.gif)
+<img src="../../images/React/FiberAndHooks/1625d95bc100c7fe.gif">
 
 而Fiber就是用来解决这个问题的，Fiber可以将长时间的同步任务拆分成多个小任务，从而让浏览器能够抽身去响应其他事件，等他空了再回来继续计算，这样整个计算流程就显得平滑很多。下面是使用Fiber后的效果：
 
-![1625d95bc2baf0e1](../../images/React/FiberAndHooks/1625d95bc2baf0e1.gif)
+<img src="../../images/React/FiberAndHooks/1625d95bc2baf0e1.gif">
 
 ## 怎么来拆分
 
@@ -598,7 +598,7 @@ function useState(init) {
 
 这样其实我们就可以使用了：
 
-![Jun-19-2020 15-16-04](../../images/React/FiberAndHooks/Jun-19-2020 15-16-04.gif)
+<img src="../../images/React/FiberAndHooks/Jun-19-2020 15-16-04.gif">
 
 ### 支持多个state
 
@@ -635,7 +635,7 @@ function useState(init) {
 
 来看看多个`useState`的效果：
 
-![Jun-19-2020 15-28-59](../../images/React/FiberAndHooks/Jun-19-2020 15-28-59.gif)
+<img src="../../images/React/FiberAndHooks/Jun-19-2020 15-28-59.gif">
 
 ### 支持多个组件
 
