@@ -1,6 +1,4 @@
-## Hi. 
+## Hi. 😃
 
-> 文章来自这个`Github`地址： 
-**[https://github.com/dennis-jiang/Front-End-Knowledges](https://github.com/dennis-jiang/Front-End-Knowledges)**
 
 
