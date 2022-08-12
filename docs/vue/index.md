@@ -1,1 +1,1 @@
-* [vue3-vite项目使用element-plus](/docs/vue/vue3-vite项目使用element-plus.md)
+* [vue3-vite项目使用element-plus](/docs/vue/vue3-vite项目使用element-plus的最佳实践.md)
