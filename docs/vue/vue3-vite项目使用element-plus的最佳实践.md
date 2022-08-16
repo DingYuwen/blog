@@ -1,8 +1,8 @@
 <!--
- * @Author: dingyw02 dingyw02@cifi.com.cn
+ * @Author: dingyuwen
  * @Date: 2022-08-11 09:39:22
  * @LastEditTime: 2022-08-12 11:19:19
- * @LastEditors: dingyw02
+ * @LastEditors: dingyuwen
  * @Description: 
 -->
 # vue3-vite项目使用element-plus的最佳实践
